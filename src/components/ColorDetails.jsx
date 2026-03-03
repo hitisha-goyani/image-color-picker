@@ -7,14 +7,21 @@ export default function ColorDetails({
   handlePickFromScreen
 }) {
 
+  /* ===== FORMAT HSL CLEAN ===== */
   const hslText =
     hsl && hsl.h !== undefined
-      ? `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`
+      ? `hsl(${Math.round(hsl.h)}, ${Math.round(hsl.s)}%, ${Math.round(hsl.l)}%)`
       : "";
 
-  const copy = (value) => {
+  /* ===== SAFE COPY FUNCTION ===== */
+  const copy = async (value) => {
     if (!value) return;
-    navigator.clipboard.writeText(value);
+
+    try {
+      await navigator.clipboard.writeText(value);
+    } catch (err) {
+      console.error("Copy failed:", err);
+    }
   };
 
   return (
@@ -34,15 +41,9 @@ export default function ColorDetails({
           <button
             className="modern-btn"
             onClick={() => copy(color)}
+            aria-label="Copy HEX"
           >
-            {/* Copy Icon */}
-            <svg width="16" height="16" viewBox="0 0 24 24"
-              fill="none" stroke="currentColor" strokeWidth="2">
-              <rect x="9" y="9" width="13" height="13" rx="2"/>
-              <path d="M5 15H4a2 2 0 0 1-2-2V4
-                       a2 2 0 0 1 2-2h9
-                       a2 2 0 0 1 2 2v1"/>
-            </svg>
+            <CopyIcon />
           </button>
         </div>
       </div>
@@ -55,14 +56,9 @@ export default function ColorDetails({
           <button
             className="modern-btn"
             onClick={() => copy(rgb)}
+            aria-label="Copy RGB"
           >
-            <svg width="16" height="16" viewBox="0 0 24 24"
-              fill="none" stroke="currentColor" strokeWidth="2">
-              <rect x="9" y="9" width="13" height="13" rx="2"/>
-              <path d="M5 15H4a2 2 0 0 1-2-2V4
-                       a2 2 0 0 1 2-2h9
-                       a2 2 0 0 1 2 2v1"/>
-            </svg>
+            <CopyIcon />
           </button>
         </div>
       </div>
@@ -75,14 +71,9 @@ export default function ColorDetails({
           <button
             className="modern-btn"
             onClick={() => copy(hslText)}
+            aria-label="Copy HSL"
           >
-            <svg width="16" height="16" viewBox="0 0 24 24"
-              fill="none" stroke="currentColor" strokeWidth="2">
-              <rect x="9" y="9" width="13" height="13" rx="2"/>
-              <path d="M5 15H4a2 2 0 0 1-2-2V4
-                       a2 2 0 0 1 2-2h9
-                       a2 2 0 0 1 2 2v1"/>
-            </svg>
+            <CopyIcon />
           </button>
         </div>
       </div>
@@ -105,16 +96,8 @@ export default function ColorDetails({
           className="primary-upload"
           onClick={() => fileInputRef?.current?.click()}
         >
-          <svg width="18" height="18" viewBox="0 0 24 24"
-            fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5
-                     a2 2 0 0 1-2-2v-4"/>
-            <polyline points="17 8 12 3 7 8"/>
-            <line x1="12" y1="3" x2="12" y2="15"/>
-          </svg>
-          <span style={{ marginLeft: 8 }}>
-            Use your image
-          </span>
+          <UploadIcon />
+          <span>Use your image</span>
         </button>
 
         {/* EyeDropper Button */}
@@ -122,24 +105,13 @@ export default function ColorDetails({
           className="secondary-upload"
           onClick={handlePickFromScreen}
         >
-          <svg width="18" height="18" viewBox="0 0 24 24"
-            fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M19 11l-8 8-4-4 8-8
-                     a2.828 2.828 0 1 1 4 4z"/>
-          </svg>
-          <span style={{ marginLeft: 8 }}>
-            Pick from Screen
-          </span>
+          <EyeIcon />
+          <span>Pick from Screen</span>
         </button>
 
         {/* Privacy Text */}
         <p className="privacy-text">
-          <svg width="14" height="14" viewBox="0 0 24 24"
-            fill="none" stroke="currentColor" strokeWidth="2"
-            style={{ marginRight: 5 }}>
-            <rect x="3" y="11" width="18" height="11" rx="2"/>
-            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-          </svg>
+          <LockIcon />
           We think data protection is important!
           <b> No data is sent.</b> The magic happens in your browser.
         </p>
@@ -149,3 +121,42 @@ export default function ColorDetails({
     </div>
   );
 }
+
+/* ================= ICONS ================= */
+
+const CopyIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24"
+    fill="none" stroke="currentColor" strokeWidth="2">
+    <rect x="9" y="9" width="13" height="13" rx="2"/>
+    <path d="M5 15H4a2 2 0 0 1-2-2V4
+             a2 2 0 0 1 2-2h9
+             a2 2 0 0 1 2 2v1"/>
+  </svg>
+);
+
+const UploadIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24"
+    fill="none" stroke="currentColor" strokeWidth="2">
+    <path d="M21 15v4a2 2 0 0 1-2 2H5
+             a2 2 0 0 1-2-2v-4"/>
+    <polyline points="17 8 12 3 7 8"/>
+    <line x1="12" y1="3" x2="12" y2="15"/>
+  </svg>
+);
+
+const EyeIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24"
+    fill="none" stroke="currentColor" strokeWidth="2">
+    <path d="M19 11l-8 8-4-4 8-8
+             a2.828 2.828 0 1 1 4 4z"/>
+  </svg>
+);
+
+const LockIcon = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24"
+    fill="none" stroke="currentColor" strokeWidth="2"
+    style={{ marginRight: 5 }}>
+    <rect x="3" y="11" width="18" height="11" rx="2"/>
+    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+  </svg>
+);
