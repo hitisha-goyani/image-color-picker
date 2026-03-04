@@ -187,20 +187,29 @@ export default function ImageTab() {
             </button>
 
             {/* Download */}
-            <button
-              className="circle-btn"
-              onClick={() => {
-                const blob = new Blob(
-                  [JSON.stringify(palette)],
-                  { type: "application/json" }
-                );
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement("a");
-                a.href = url;
-                a.download = "palette.json";
-                a.click();
-              }}
-            >
+            {/* Download */}
+<button
+  className="circle-btn"
+  onClick={() => {
+    const data = JSON.stringify(palette, null, 2);
+
+    const blob = new Blob([data], {
+      type: "application/json"
+    });
+
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "color-palette.json";
+
+    document.body.appendChild(link);
+    link.click();
+
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }}
+>
               <svg width="18" height="18" viewBox="0 0 24 24"
                 fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M12 3v12"/>
@@ -210,15 +219,23 @@ export default function ImageTab() {
             </button>
 
             {/* Save */}
-            <button
-              className="circle-btn"
-              onClick={() =>
-                localStorage.setItem(
-                  "palette",
-                  JSON.stringify(palette)
-                )
-              }
-            >
+            {/* Save */}
+<button
+  className="circle-btn"
+  onClick={() => {
+    const savedPalette = {
+      colors: palette,
+      savedAt: new Date().toISOString()
+    };
+
+    localStorage.setItem(
+      "savedPalette",
+      JSON.stringify(savedPalette)
+    );
+
+    alert("Palette saved successfully!");
+  }}
+>
               <svg width="18" height="18" viewBox="0 0 24 24"
                 fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M19 21H5V3h11l3 3v15z"/>

@@ -455,5 +455,5 @@ function Box({ label, value, copy }) {
         </button>
       </div>
     </div>
-  );
+  )
 }

@@ -109,60 +109,7 @@
   }
 }
 
-  /* ---------------- COLOR PALETTE ---------------- */
-
-  .palette-section {
-    margin-top: 25px;
-  }
-
-  .palette-section h3 {
-    margin-bottom: 15px;
-    font-weight: 500;
-  }
-
-  /* Row */
-  .palette-controls {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-  }
-
-  /* Circle Buttons */
-  .circle-btn {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    border: none;
-    background: #ffffff;
-    cursor: pointer;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
-    font-size: 18px;
-    transition: 0.2s ease;
-  }
-
-  .circle-btn:hover {
-    transform: translateY(-4px);
-  }
-
-  /* Palette Bar */
-  .palette-bar {
-    flex: 1;
-    height: 55px;
-    display: flex;
-    border-radius: 14px;
-    overflow: hidden;
-    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05);
-  }
-
-  .palette-bar div {
-    flex: 1;
-    cursor: pointer;
-    transition: 0.2s ease;
-  }
-
-  .palette-bar div:hover {
-    transform: scale(1.05);
-  }
+  
 
   /* ---------------- RIGHT PANEL ---------------- */
 
@@ -354,168 +301,217 @@
 
 
 
-  /* ===== PALETTE WRAPPER ===== */
-  .palette-wrapper {
-    margin-top: 25px;
-  }
+  /* ================= PALETTE SECTION ================= */
 
-  .palette-title {
-    font-size: 18px;
-    font-weight: 500;
-    margin-bottom: 18px;
-    color: #2d2d2d;
-  }
-
-  /* ===== ROW LAYOUT ===== */
-  .palette-row {
-    display: flex;
-    align-items: center;
-    gap: 18px;
-  }
-
-  /* ===== CIRCLE ICON BUTTON ===== */
-  .circle-icon {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    border: none;
-    background: #f5f5f5;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 6px 6px 15px rgba(0,0,0,0.12),
-                -6px -6px 15px rgba(255,255,255,0.8);
-    transition: 0.2s ease;
-  }
-
-  .circle-icon:hover {
-    transform: translateY(-4px);
-  }
-
-  .palette-strip {
-    flex: 1;
-    height: 60px;
-    display: flex;
-    border-radius: 15px;
-    overflow: hidden;
-  }
-
-  .palette-color {
-    flex: 1;
-    cursor: pointer;
-  }
-
-
-  /* ================= COLOR PALETTE UI ================= */
-
-.palette-container {
-  margin-top: 30px;
-   width: 100%;
+.palette-section{
+  margin-top:25px;
+  width:100%;
 }
 
-.palette-heading {
-  font-size: 15px;
-  font-weight: 600;
-  margin-bottom: 18px;
-  color: #333;
+.palette-section h3{
+  margin-bottom:15px;
+  font-weight:500;
 }
 
-/* Circle Buttons */
+/* CONTROLS LAYOUT */
 
-.palette-circle-btn {
-  width: 40px;
-  height: 40px;
-  min-width: 40px;
-  border-radius: 50%;
-  border: none;
-  background: #f2f2f2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
+.palette-controls{
+  display:grid;
+  grid-template-columns:auto 1fr auto auto auto;
+  align-items:center;
+  gap:14px;
+  width:100%;
 }
 
-.palette-circle-btn:hover {
-  background: #e5e5e5;
+/* BUTTONS */
+
+.circle-btn{
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  border:none;
+  background:#ffffff;
+  cursor:pointer;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  box-shadow:0 6px 18px rgba(0,0,0,0.15);
+  transition:0.2s ease;
 }
 
-/* Color Strip Bar */
-
-.palette-strip-bar {
-  flex: 1;
-  min-width: 200px;
-  display: flex;
-  overflow-x: auto;
-  border-radius: 10px;
-  height: 40px;
+.circle-btn:hover{
+  transform:translateY(-3px);
 }
 
-/* Hide scrollbar but keep scroll */
+/* COLOR BAR */
 
-.palette-strip-bar::-webkit-scrollbar {
-  height: 6px;
+.palette-bar{
+  height:55px;
+  display:flex;
+  border-radius:14px;
+  overflow:hidden;
+  background:#ffffff;
 }
 
-.palette-strip-bar::-webkit-scrollbar-thumb {
-  background: #ccc;
-  border-radius: 10px;
+.palette-bar div{
+  flex:1;
+  cursor:pointer;
+  transition:0.2s ease;
 }
 
-/* Individual Color Segments */
-
-.palette-segment {
-  flex: 0 0 40px;
-  height: 100%;
-  cursor: pointer;
-  transition: transform 0.15s ease;
-}
-
-.palette-segment:hover {
-  transform: scale(1.05);
+.palette-bar div:hover{
+  transform:scale(1.05);
 }
 
 /* ================= MOBILE RESPONSIVE ================= */
 
-@media (max-width: 768px) {
+@media (max-width:650px){
 
-  .palette-controls-row {
-    gap: 10px;
+  .palette-controls{
+    grid-template-columns:1fr 1fr 1fr 1fr;
+    grid-template-rows:auto auto;
   }
 
-  .palette-circle-btn {
-    width: 36px;
-    height: 36px;
-    min-width: 36px;
+  /* minus */
+  .circle-btn:nth-child(1){
+    grid-column:1;
   }
 
-  .palette-strip-bar {
-    min-width: 100%;
-    height: 36px;
+  /* plus */
+  .circle-btn:nth-child(3){
+    grid-column:2;
   }
 
-  .palette-segment {
-    flex: 0 0 36px;
+  /* download */
+  .circle-btn:nth-child(4){
+    grid-column:3;
   }
+
+  /* save */
+  .circle-btn:nth-child(5){
+    grid-column:4;
+  }
+
+  /* palette bar full width */
+  .palette-bar{
+    grid-column:1 / -1;
+    grid-row:2;
+  }
+
 }
 
-@media (max-width: 480px) {
 
-  .palette-controls-row {
-    justify-content: center;
+ /* ================= COLOR PALETTE ================= */
+
+.palette-container{
+  width:100%;
+  margin-top:30px;
+}
+
+.palette-heading{
+  font-size:18px;
+  font-weight:600;
+  margin-bottom:16px;
+}
+
+/* ===== CONTROLS ROW ===== */
+
+.palette-controls-row{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  flex-wrap:wrap;
+}
+
+/* ===== BUTTONS ===== */
+
+.palette-circle-btn{
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  border:none;
+  background:#f2f2f2;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+
+  box-shadow:
+  5px 5px 12px rgba(0,0,0,0.15),
+  -5px -5px 12px rgba(255,255,255,0.9);
+
+  transition:0.25s ease;
+}
+
+.palette-circle-btn:hover{
+  transform:translateY(-3px);
+}
+
+.palette-circle-btn:active{
+  transform:scale(0.95);
+}
+
+/* ===== COLOR STRIP ===== */
+
+.palette-strip-bar{
+  flex:1;
+  min-width:250px;
+  height:60px;
+  display:flex;
+  border-radius:12px;
+  overflow:hidden;
+  background:#fff;
+}
+
+.palette-segment{
+  flex:1;
+  cursor:pointer;
+  transition:0.2s;
+}
+
+.palette-segment:hover{
+  transform:scale(1.05);
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width:650px){
+
+  .palette-controls-row{
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap:12px;
   }
 
-  .palette-strip-bar {
-    order: 3;
-    width: 100%;
-    margin-top: 10px;
+  /* minus button */
+  .palette-circle-btn:nth-child(1){
+    grid-column:1;
+  }
+
+  /* plus button */
+  .palette-circle-btn:nth-child(2){
+    grid-column:2;
+  }
+
+  /* download */
+  .palette-circle-btn:nth-child(4){
+    grid-column:3;
+  }
+
+  /* save */
+  .palette-circle-btn:nth-child(5){
+    grid-column:4;
+  }
+
+  /* palette bar full width */
+  .palette-strip-bar{
+    grid-column:1 / -1;
+    height:55px;
   }
 
 }
-
-
-
 
 
 
