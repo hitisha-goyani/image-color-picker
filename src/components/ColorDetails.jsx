@@ -1,10 +1,10 @@
 export default function ColorDetails({
-  color = "#2596be",
-  rgb = "rgb(37, 150, 190)",
-  hsl = { h: 196, s: 67, l: 45 },
+  color,
+  rgb ,
+  hsl ,
   fileInputRef,
   handleUpload,
-  handlePickFromScreen
+
 }) {
 
   /* ===== SAFE HSL FORMAT ===== */
@@ -24,6 +24,8 @@ export default function ColorDetails({
       console.error("Copy failed:", err);
     }
   };
+
+
 
   return (
     <div className="details-panel">
@@ -112,7 +114,14 @@ export default function ColorDetails({
         {/* EyeDropper Button */}
         <button
           className="secondary-upload"
-          onClick={handlePickFromScreen}
+         onClick={async () => {
+      if (!window.EyeDropper)
+        return alert("Not supported");
+
+      const eyeDropper = new window.EyeDropper();
+      const result = await eyeDropper.open();
+      setHex(result.sRGBHex);
+    }}
         >
           <EyeIcon />
           <span>Pick from Screen</span>

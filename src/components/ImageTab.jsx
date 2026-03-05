@@ -9,9 +9,9 @@ export default function ImageTab() {
   const frameRef = useRef(null);
 
   const [imageSrc, setImageSrc] = useState("");
-  const [color, setColor] = useState("#ffffff");
-  const [rgb, setRgb] = useState("");
-  const [hsl, setHsl] = useState({});
+const [color, setColor] = useState("#2596be");
+const [rgb, setRgb] = useState("rgb(37,150,190)");
+const [hsl, setHsl] = useState({ h:196, s:67, l:45 });
   const [palette, setPalette] = useState([]);
   const [paletteLimit, setPaletteLimit] = useState(12);
   const [zoom, setZoom] = useState({ x: 0, y: 0, show: false });
