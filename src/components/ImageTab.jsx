@@ -15,6 +15,8 @@ const [hsl, setHsl] = useState({ h:196, s:67, l:45 });
   const [palette, setPalette] = useState([]);
   const [paletteLimit, setPaletteLimit] = useState(12);
   const [zoom, setZoom] = useState({ x: 0, y: 0, show: false });
+  const [showExport, setShowExport] = useState(false);
+const [activeExport, setActiveExport] = useState(null);
 
   useEffect(() => {
     setImageSrc(
@@ -112,6 +114,81 @@ const [hsl, setHsl] = useState({ h:196, s:67, l:45 });
     setPalette([...colorSet]);
   };
 
+  // download button //
+
+
+  const downloadFile = (content, filename, type) => {
+
+  const blob = new Blob([content], { type });
+
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+
+  document.body.appendChild(a);
+  a.click();
+
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+};
+
+const exportCSS = () => {
+  const css = palette
+    .slice(0, paletteLimit)
+    .map((c, i) => `--color-${i + 1}: ${c};`)
+    .join("\n");
+
+  downloadFile(css, "palette.css", "text/css");
+};
+
+const exportCode = () => {
+  const code = palette
+    .slice(0, paletteLimit)
+    .map(c => `"${c}"`)
+    .join(",\n");
+
+  downloadFile(`[${code}]`, "palette.txt", "text/plain");
+};
+
+const exportSVG = () => {
+
+  const colors = palette.slice(0, paletteLimit);
+
+  const width = 100 * colors.length;
+
+  const svg =
+`<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="100">
+${colors.map((c,i)=>`<rect x="${i*100}" y="0" width="100" height="100" fill="${c}" />`).join("")}
+</svg>`;
+
+  downloadFile(svg, "palette.svg", "image/svg+xml");
+};
+
+const exportPNG = () => {
+
+  const colors = palette.slice(0, paletteLimit);
+
+  const canvas = document.createElement("canvas");
+  const size = 80;
+
+  canvas.width = colors.length * size;
+  canvas.height = size;
+
+  const ctx = canvas.getContext("2d");
+
+  colors.forEach((c,i)=>{
+    ctx.fillStyle = c;
+    ctx.fillRect(i*size,0,size,size);
+  });
+
+  const link = document.createElement("a");
+  link.download = "palette.png";
+  link.href = canvas.toDataURL();
+  link.click();
+};
+
   return (
     <div className="content">
 
@@ -190,58 +267,17 @@ const [hsl, setHsl] = useState({ h:196, s:67, l:45 });
             {/* Download */}
 <button
   className="circle-btn"
-  onClick={() => {
-    const data = JSON.stringify(palette, null, 2);
-
-    const blob = new Blob([data], {
-      type: "application/json"
-    });
-
-    const url = URL.createObjectURL(blob);
-
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "color-palette.json";
-
-    document.body.appendChild(link);
-    link.click();
-
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-  }}
+  onClick={() => setShowExport(true)}
 >
-              <svg width="18" height="18" viewBox="0 0 24 24"
-                fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M12 3v12"/>
-                <path d="M7 10l5 5 5-5"/>
-                <path d="M5 21h14"/>
-              </svg>
-            </button>
+  <svg width="18" height="18" viewBox="0 0 24 24"
+    fill="none" stroke="currentColor" strokeWidth="2">
+    <path d="M12 3v12"/>
+    <path d="M7 10l5 5 5-5"/>
+    <path d="M5 21h14"/>
+  </svg>
+</button>
 
-            {/* Save */}
-            {/* Save */}
-<button
-  className="circle-btn"
-  onClick={() => {
-    const savedPalette = {
-      colors: palette,
-      savedAt: new Date().toISOString()
-    };
-
-    localStorage.setItem(
-      "savedPalette",
-      JSON.stringify(savedPalette)
-    );
-
-    alert("Palette saved successfully!");
-  }}
->
-              <svg width="18" height="18" viewBox="0 0 24 24"
-                fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M19 21H5V3h11l3 3v15z"/>
-                <path d="M7 3v5h8"/>
-              </svg>
-            </button>
+           
 
           </div>
         </div>
@@ -254,6 +290,60 @@ const [hsl, setHsl] = useState({ h:196, s:67, l:45 });
         fileInputRef={fileInputRef}
         handleUpload={handleUpload}
       />
+
+
+      {showExport && (
+
+<div className="export-overlay">
+
+  <div className="export-modal">
+
+    <h2>Export Palette</h2>
+
+    <div className="export-list">
+
+      <div onClick={()=>setActiveExport("css")}>CSS</div>
+
+      {activeExport==="css" && (
+        <div className="export-actions">
+          <button onClick={()=>setShowExport(false)}>Cancel</button>
+          <button onClick={exportCSS}>Download</button>
+        </div>
+      )}
+
+      <div onClick={()=>setActiveExport("code")}>Code</div>
+
+      {activeExport==="code" && (
+        <div className="export-actions">
+          <button onClick={()=>setShowExport(false)}>Cancel</button>
+          <button onClick={exportCode}>Download</button>
+        </div>
+      )}
+
+      <div onClick={()=>setActiveExport("svg")}>SVG</div>
+
+      {activeExport==="svg" && (
+        <div className="export-actions">
+          <button onClick={()=>setShowExport(false)}>Cancel</button>
+          <button onClick={exportSVG}>Download</button>
+        </div>
+      )}
+
+      <div onClick={()=>setActiveExport("png")}>PNG</div>
+
+      {activeExport==="png" && (
+        <div className="export-actions">
+          <button onClick={()=>setShowExport(false)}>Cancel</button>
+          <button onClick={exportPNG}>Download</button>
+        </div>
+      )}
+
+    </div>
+
+  </div>
+
+</div>
+)}
     </div>
   );
 }
