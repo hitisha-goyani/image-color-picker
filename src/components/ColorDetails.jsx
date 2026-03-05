@@ -4,6 +4,7 @@ export default function ColorDetails({
   hsl ,
   fileInputRef,
   handleUpload,
+    handlePickFromScreen
 
 }) {
 
@@ -113,19 +114,12 @@ export default function ColorDetails({
 
         {/* EyeDropper Button */}
         <button
-          className="secondary-upload"
-         onClick={async () => {
-      if (!window.EyeDropper)
-        return alert("Not supported");
-
-      const eyeDropper = new window.EyeDropper();
-      const result = await eyeDropper.open();
-      setHex(result.sRGBHex);
-    }}
-        >
-          <EyeIcon />
-          <span>Pick from Screen</span>
-        </button>
+  className="secondary-upload"
+  onClick={handlePickFromScreen}
+>
+  <EyeIcon />
+  <span>Pick from Screen</span>
+</button>
 
         {/* Privacy Text */}
         <p className="privacy-text">

@@ -1,8 +1,7 @@
 import { useRef, useState } from "react";
-import ColorThief from "colorthief";
 import { rgbToHex, rgbToHsl } from "../utils/colorUtils";
 import ColorDetails from "./ColorDetails";
-import { Minus, Plus, Download, Save } from "lucide-react";
+
 
 export default function ImagePicker() {
   const imgRef = useRef(null);

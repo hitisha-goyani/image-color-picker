@@ -9,8 +9,8 @@ export default function ImageTab() {
   const frameRef = useRef(null);
 
   const [imageSrc, setImageSrc] = useState("");
-const [color, setColor] = useState("#2596be");
-const [rgb, setRgb] = useState("rgb(37,150,190)");
+const [color, setColor] = useState("#d8a578");
+const [rgb, setRgb] = useState("rgb(125, 70, 16)");
 const [hsl, setHsl] = useState({ h:196, s:67, l:45 });
   const [palette, setPalette] = useState([]);
   const [paletteLimit, setPaletteLimit] = useState(12);
@@ -189,6 +189,27 @@ const exportPNG = () => {
   link.click();
 };
 
+const handlePickFromScreen = async () => {
+
+  if (!window.EyeDropper) {
+    alert("EyeDropper not supported");
+    return;
+  }
+
+  const eyeDropper = new window.EyeDropper();
+  const result = await eyeDropper.open();
+
+  const hex = result.sRGBHex;
+
+  const r = parseInt(hex.slice(1,3),16);
+  const g = parseInt(hex.slice(3,5),16);
+  const b = parseInt(hex.slice(5,7),16);
+
+  setColor(hex);
+  setRgb(`rgb(${r}, ${g}, ${b})`);
+  setHsl(rgbToHsl(r,g,b));
+};
+
   return (
     <div className="content">
 
@@ -289,6 +310,7 @@ const exportPNG = () => {
         hsl={hsl}
         fileInputRef={fileInputRef}
         handleUpload={handleUpload}
+          handlePickFromScreen={handlePickFromScreen}
       />
 
 
