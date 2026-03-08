@@ -4,7 +4,7 @@ export default function ColorDetails({
   hsl ,
   fileInputRef,
   handleUpload,
-    handlePickFromScreen
+  handlePickFromScreen
 
 }) {
 
@@ -124,7 +124,7 @@ export default function ColorDetails({
         {/* Privacy Text */}
         <p className="privacy-text">
           <LockIcon />
-          We think data protection is important!
+              We think data protection is important!
           <b> No data is sent.</b> The magic happens in your browser.
         </p>
 
@@ -162,7 +162,6 @@ const UploadIcon = () => (
              a2 2 0 0 1-2-2v-4"/>
 
     <polyline points="17 8 12 3 7 8"/>
-
     <line x1="12" y1="3" x2="12" y2="15"/>
   </svg>
 );

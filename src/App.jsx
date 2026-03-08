@@ -1,6 +1,7 @@
 import { useState } from "react";
 import ImageTab from "./components/ImageTab";
 import ColorPickerTab from "./components/ColorPickerTab";
+import PaletteTab from "./components/PaletteTab";
 
 export default function App() {
   const [activeTab, setActiveTab] = useState("image");
@@ -23,11 +24,19 @@ export default function App() {
         >
           Color Picker
         </button>
+              <button
+      className={activeTab==="palette" ? "active":""}
+      onClick={()=>setActiveTab("palette")}
+      >
+      Color Palette
+      </button>
       </div>
 
       {/* ===== TAB CONTENT ===== */}
       {activeTab === "image" && <ImageTab />}
       {activeTab === "picker" && <ColorPickerTab />}
+      {activeTab === "palette" && <PaletteTab />}
+   
 
     </div>
   );
